@@ -75,7 +75,7 @@ void displayInfo() {
   display.clear();
   Serial.print(F("Location: "));
 
-  String location = "Location: ";
+  String location = "GPS: ";
 
   if (gps.location.isValid()) {
     Serial.print(gps.location.lat(), 6);
@@ -93,7 +93,7 @@ void displayInfo() {
   display.setStatus(location);
 
   Serial.print(F("  Date/Time: "));
-  String dateTime = "Date/Time: ";
+  String dateTime = "Date: ";
   if (gps.date.isValid()) {
     Serial.print(gps.date.month());
     Serial.print(F("/"));
@@ -101,19 +101,20 @@ void displayInfo() {
     Serial.print(F("/"));
     Serial.print(gps.date.year());
 
-    dateTime += String(gps.date.year(), 4);
+    dateTime += String(gps.date.year());
     dateTime += "-";
-    dateTime += String(gps.date.month(), 2);
+    dateTime += String(gps.date.month());
     dateTime += "-";
-    dateTime += String(gps.date.day(), 2);
+    dateTime += String(gps.date.day());
 
   } else {
     Serial.print(F("INVALID"));
     dateTime += "INVALID";
   }
+  display.setSubstatus(dateTime);
 
   Serial.print(F(" "));
-  dateTime += " ";
+  dateTime = "Time: ";
   if (gps.time.isValid()) {
     if (gps.time.hour() < 10) Serial.print(F("0"));
     Serial.print(gps.time.hour());
@@ -128,19 +129,19 @@ void displayInfo() {
     Serial.print(gps.time.centisecond());
 
 
-    dateTime += String(gps.time.hour(), 2);
+    dateTime += String(gps.time.hour());
     dateTime += ":";
-    dateTime += String(gps.time.minute(), 2);
+    dateTime += String(gps.time.minute());
     dateTime += ":";
-    dateTime += String(gps.time.second(), 2);
+    dateTime += String(gps.time.second());
     dateTime += ".";
-    dateTime += String(gps.time.centisecond(), 2);
+    dateTime += String(gps.time.centisecond());
   } else {
     Serial.print(F("INVALID"));
     dateTime += "INVALID";
   }
 
-  display.setSubstatus(dateTime);
+  display.setSubstatus2(dateTime);
   Serial.println();
 
   display.update();

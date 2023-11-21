@@ -25,6 +25,7 @@ public:
   void init();
   void setStatus(String text);
   void setSubstatus(String text);
+  void setSubstatus2(String text);
   void clear();
   void update();
   void updatePagerMessage(String sender, String receiver, String message, String textPixelBase64, int textCount);

@@ -40,7 +40,7 @@ void CPOledDisplay::init() {
 
 void CPOledDisplay::setStatus(String text) {
 #if USE_U8G2
-  display.setCursor(0, 10);
+  display.setCursor(0, 9);
   display.print(text);
 #else
   display.drawString(0, 10, text);          //显示
@@ -49,7 +49,16 @@ void CPOledDisplay::setStatus(String text) {
 
 void CPOledDisplay::setSubstatus(String text) {
 #if USE_U8G2
-  display.setCursor(0, 30);
+  display.setCursor(0, 20);
+  display.print(text);  // Chinese "Hello World"
+#else
+  display.drawString(0, 30, text);          //显示
+#endif
+}
+
+void CPOledDisplay::setSubstatus2(String text) {
+#if USE_U8G2
+  display.setCursor(0, 32);
   display.print(text);  // Chinese "Hello World"
 #else
   display.drawString(0, 30, text);          //显示
