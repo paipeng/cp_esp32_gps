@@ -14,12 +14,9 @@
 
 
 #else
-#include "SSD1306Wire.h"        // legacy: #include "SSD1306.h"
+#include "SSD1306Wire.h"  // legacy: #include "SSD1306.h"
 #endif
 
-//OLED引脚定义
-#define SDA   21
-#define SCL   22
 
 
 class CPOledDisplay {
@@ -27,6 +24,9 @@ public:
   CPOledDisplay();
   void init();
   void setStatus(String text);
+  void setSubstatus(String text);
+  void clear();
+  void update();
   void updatePagerMessage(String sender, String receiver, String message, String textPixelBase64, int textCount);
   void drawTextPixel(int x, int y, int width, int height, const uint16_t* textPixels);
   void drawTest(const unsigned char* data, int dataLen, int textCount);

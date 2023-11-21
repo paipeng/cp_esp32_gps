@@ -38,6 +38,7 @@ void setup() {
 
   Serial.println("init display...");
   display.init();
+  Serial.println("init done");
 
   //sdcard_init();
   delay(1000);
@@ -48,7 +49,6 @@ void setup() {
 void loop() {
   // clear the display
   updateSerial();
-
 }
 
 
@@ -57,6 +57,8 @@ void updateSerial() {
   while (ss.available() > 0) {
     if (gps.encode(ss.read())) {
       displayInfo();
+
+      //display.setStatus("你好 CP IoT==========");
     }
   }
 
@@ -70,6 +72,7 @@ void updateSerial() {
 
 
 void displayInfo() {
+  display.clear();
   Serial.print(F("Location: "));
 
   String location = "Location: ";
@@ -78,6 +81,10 @@ void displayInfo() {
     Serial.print(gps.location.lat(), 6);
     Serial.print(F(","));
     Serial.print(gps.location.lng(), 6);
+
+    location += String(gps.location.lat(), 6);
+    location += ",";
+    location += String(gps.location.lng(), 6);
   } else {
     Serial.print(F("INVALID"));
     location += "INVALID";
@@ -86,17 +93,27 @@ void displayInfo() {
   display.setStatus(location);
 
   Serial.print(F("  Date/Time: "));
+  String dateTime = "Date/Time: ";
   if (gps.date.isValid()) {
     Serial.print(gps.date.month());
     Serial.print(F("/"));
     Serial.print(gps.date.day());
     Serial.print(F("/"));
     Serial.print(gps.date.year());
+
+    dateTime += String(gps.date.year(), 4);
+    dateTime += "-";
+    dateTime += String(gps.date.month(), 2);
+    dateTime += "-";
+    dateTime += String(gps.date.day(), 2);
+
   } else {
     Serial.print(F("INVALID"));
+    dateTime += "INVALID";
   }
 
   Serial.print(F(" "));
+  dateTime += " ";
   if (gps.time.isValid()) {
     if (gps.time.hour() < 10) Serial.print(F("0"));
     Serial.print(gps.time.hour());
@@ -110,9 +127,21 @@ void displayInfo() {
     if (gps.time.centisecond() < 10) Serial.print(F("0"));
     Serial.print(gps.time.centisecond());
 
+
+    dateTime += String(gps.time.hour(), 2);
+    dateTime += ":";
+    dateTime += String(gps.time.minute(), 2);
+    dateTime += ":";
+    dateTime += String(gps.time.second(), 2);
+    dateTime += ".";
+    dateTime += String(gps.time.centisecond(), 2);
   } else {
     Serial.print(F("INVALID"));
+    dateTime += "INVALID";
   }
 
+  display.setSubstatus(dateTime);
   Serial.println();
+
+  display.update();
 }
