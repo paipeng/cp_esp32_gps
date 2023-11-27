@@ -5,7 +5,7 @@
 #include "CPOledDisplay.h"
 
 
-
+#define TIME_ZONE 8
 
 #define ATGM336H_TX_PIN 16  // TX pin of BT JDY16 -> RX pin of ESP32
 #define ATGM336H_RX_PIN 17  // RX pin of BT JDY16 -> TX pin of ESP32
